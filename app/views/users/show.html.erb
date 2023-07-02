@@ -1,0 +1,20 @@
+<div class="jumbotron text-center">
+  <h1>
+    <%= render @user %>
+  </h1>
+  <p>
+    <%= button_to "Make Admin", { action: "admin" }, method: :put, class: "btn btn-success" %>
+    <br>
+    <%= link_to "Remove this User", users_path, class: "btn btn-danger" %>
+  </p>
+</div>
+
+<style>
+  .jumbotron {
+    text-align: center;
+  }
+
+  p {
+    text-align: center;
+  }
+</style>

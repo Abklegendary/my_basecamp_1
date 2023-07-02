@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Members</h1>
+
+  <p>These are all the current members on the platform</p>
+  
+  <% @users.each do |user| %>
+    <%= render user %>
+    <p>
+      <%= link_to "Show this user", user, class: "btn btn-success" %>
+    </p>
+  <% end %>
+  
+  <style>
+    h1 {
+      text-align: center;
+    }
+  
+    p {
+      font-size: 20px;
+      text-align: center;
+    }
+  
+    h4 {
+      text-align: center;
+    }
+  </style>
+</body>
+</html>

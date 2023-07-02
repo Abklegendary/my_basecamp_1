@@ -1,0 +1,23 @@
+- if user_signed_in?
+- else
+  = link_to "Sign Up", new_user_registration_path, class: "btn btn-success"
+  = link_to "Sign In", new_user_session_path, class: "btn btn-secondary"
+
+%h1 Welcome to MyBaseCamp!
+%p We hope you have productive fun
+%P
+  = image_tag "basecamp_img_logo.png", height: 250, class: "image"
+%br
+
+%P
+  = link_to "All Projects", projects_path, class: "btn btn-success"
+  = link_to "Members", users_path, class: "btn btn-success"
+  = link_to "Add New Project", new_project_path, class: "btn btn-success"
+%style
+  h1 {
+  text-align: center; 
+  }
+  p {
+  text-align: center; 
+  }
+  
