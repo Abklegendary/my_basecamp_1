@@ -1,54 +1,66 @@
 class UsersController < ApplicationController
-    before_action :authenticate_user!
-    after_action :verify_authorized
+  before_action :authenticate_user!
+  before_action :authorized_user, only: :index
+  after_action :verify_authorized
    
    
-     def index
-       authorize User
+  def index
+    skip_authorization # Skip authorization for the index action
        
-       @users = User.all
+    @users = User.all
        
-     end
-   
-     def show
-       @user = User.find(params[:id])
-       authorize @user
-     end
-   
-     def admin
-       user = User.find params[:id]
-       user.update( :admin => true)
-       redirect_to users_path
-     end
-   
-     def authorized_user
-       @k = current_user.admin?
-       redirect_to users_path, alert: "NOT AUTHORIZED!! Only an admin can do this" if @k==false
-     end
+  end
 
-     def update
-       @user = User.find(params[:id])
-       authorize @user
+  def show
+    @user = User.find(params[:id])
+    authorize @user
+  end
 
-       if @user.update_attributes(secure_params)
-        redirect_to users_path, :success => "User updated"
-      else
-        redirect_to users_path, :alert => "Unable to update user"
-      end
-     end
+  def authorized_user
+    @k = current_user.admin?
+    puts "Admin Status: #{@k}"
+    #Rails.logger.debug("Admin Status: #{@k}") # Log the value of @k
+    redirect_to users_path unless current_user.admin?
+  end
 
-     def destroy
-      user = User.find(params[:id])
-      authorize user
-      user.destroy
-      redirect_to users_path, :notice => "User deleted"
+  def admin
+    user = User.find(params[:id])
+    user.update(admin: true)
+    redirect_to users_path
+  end  
+
+  def update
+    @user = User.find(params[:id])
+    authorize @user
+  
+    if @user.update(user_params)
+      redirect_to @user, notice: 'User role was successfully updated.'
+    else
+      render :edit
     end
+  end  
 
-    private
+  def destroy
+    @user = User.find(params[:id])
+    authorize @user
 
-      def secure_params
-        params.require(:user).permit(:role)
-      end
-   
-   end
-   
+    if @user.destroy
+      redirect_to users_path, notice: "User was successfully deleted."
+    else
+      redirect_to users_path, alert: "Failed to delete user."
+    end
+  end
+  
+  private
+
+  def user_params
+    params.require(:user).permit(:role)
+  end
+  
+  def authorized_user
+  # Redirect to the root path only if the user is neither an admin nor a user
+  redirect_to root_path unless current_user.admin? || current_user.user?
+ end
+
+end
+  

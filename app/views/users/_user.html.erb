@@ -9,10 +9,5 @@
   <p>
     <h4>Role: <%= user.role.try(:titleize) %></h4>
   </p>
-  <% if current_user.admin? && user == current_user %>
-    <%= form_for user do |f| %>
-      <%= f.select(:role, User.roles.keys.map { |role| [role.titleize, role] }) %>
-      <%= f.submit "Update Role", class: "btn btn-primary" %>
-    <% end %>
-  <% end %>
+  
 </div>

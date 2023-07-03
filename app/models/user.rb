@@ -10,13 +10,10 @@ class User < ApplicationRecord
          has_many :projects
 
         def admin?
-          @admin
+          role == 'admin'
         end
 
-        def initialize(params = {})
-          super (params)
-
-        end
+      
 
       
 end
