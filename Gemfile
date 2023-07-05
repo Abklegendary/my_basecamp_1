@@ -43,6 +43,8 @@ gem 'devise'
 gem 'haml'
 gem 'simple_form'
 gem 'pundit'
+gem 'webpacker', '~> 5.0'
+
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false

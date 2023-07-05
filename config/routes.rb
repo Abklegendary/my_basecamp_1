@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'users/index'
   devise_for :users, :path_prefix => 'd'
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -7,11 +6,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root 'home#index'
   get 'home/about'
-  get "/styles.css", to: redirect("path/to/styles.css")
-  match '/users', to: 'users#index', via: 'get'
-  match '/users/:id', to: 'users#show', via: 'get'
-  put 'admin/:id' => 'users#admin', :as => "admin"
+  delete '/users/:id', to: 'users#destroy', as: :user
+
   resources :projects
   resources :users
 
+  put 'admin/:id' => 'users#admin', :as => "admin"
 end
